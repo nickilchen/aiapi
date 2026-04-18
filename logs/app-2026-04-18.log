@@ -1,0 +1,75 @@
+[2026-04-18 11:48:03.637] [INFO] [Initialization] Discovering and initializing plugins...
+[2026-04-18 11:48:03.806] [INFO] [PluginManager] Registered plugin: ai-monitor v1.0.0
+[2026-04-18 11:48:04.114] [INFO] [PluginManager] Registered plugin: api-potluck v1.0.2
+[2026-04-18 11:48:04.220] [INFO] [PluginManager] Registered plugin: default-auth v1.0.0
+[2026-04-18 11:48:04.414] [INFO] [PluginManager] Registered plugin: model-usage-stats v1.0.0
+[2026-04-18 11:48:04.423] [INFO] [PluginManager] Found plugin for default config: ai-monitor
+[2026-04-18 11:48:04.430] [INFO] [PluginManager] Found plugin for default config: api-potluck
+[2026-04-18 11:48:04.441] [INFO] [PluginManager] Found plugin for default config: default-auth
+[2026-04-18 11:48:04.445] [INFO] [PluginManager] Found plugin for default config: model-usage-stats
+[2026-04-18 11:48:04.509] [INFO] [PluginManager] Plugin "ai-monitor" is disabled, skipping init
+[2026-04-18 11:48:04.513] [INFO] [PluginManager] Plugin "api-potluck" is disabled, skipping init
+[2026-04-18 11:48:04.515] [INFO] [PluginManager] Plugin "model-usage-stats" is disabled, skipping init
+[2026-04-18 11:48:04.519] [INFO] [Plugins] Loaded 4 plugin(s):
+[2026-04-18 11:48:04.539] [INFO]   ✗ ai-monitor v1.0.0 - AI 接口监控插件 - 捕获请求和响应参数（全链路协议转换监控，流式聚合输出，用于调试和分析）
+[2026-04-18 11:48:04.546] [INFO]   ✗ api-potluck v1.0.2 - API 大锅饭 - Key 管理和用量统计插件<br>管理端：<a href="potluck.html" target="_blank">potluck.html</a><br>用户端：<a href="potluck-user.html" target="_blank">potluck-user.html</a>
+[2026-04-18 11:48:04.559] [INFO]   ✓ default-auth v1.0.0 - 默认 API Key 认证插件
+[2026-04-18 11:48:04.572] [INFO]   ✗ model-usage-stats v1.0.0 - 模型用量统计插件<br>接口：<code>/api/model-usage-stats</code><br>页面：<a href="model-usage-stats.html" target="_blank">model-usage-stats.html</a>
+[2026-04-18 11:48:04.584] [INFO] [ProviderPoolManager] Initialized provider statuses: ok (maxErrorCount: 10)
+[2026-04-18 11:48:04.587] [INFO] [Initialization] ProviderPoolManager initialized.
+[2026-04-18 11:48:04.591] [INFO] [Initialization] Provider pools are currently empty.
+[2026-04-18 11:48:04.593] [INFO] [Initialization] No provider pools configured. Skipping node initialization.
+[2026-04-18 11:48:04.627] [INFO] --- Unified API Server Configuration ---
+[2026-04-18 11:48:04.631] [INFO]   Primary Model Provider: gemini-cli-oauth
+[2026-04-18 11:48:04.635] [INFO]   System Prompt File: F:\code\aiapi\configs\input_system_prompt.txt
+[2026-04-18 11:48:04.639] [INFO]   System Prompt Mode: append
+[2026-04-18 11:48:04.641] [INFO]   Host: 0.0.0.0
+[2026-04-18 11:48:04.646] [INFO]   Port: 3000
+[2026-04-18 11:48:04.657] [INFO]   Required API Key: 1234****
+[2026-04-18 11:48:04.661] [INFO]   Prompt Logging: none
+[2026-04-18 11:48:04.664] [INFO] ------------------------------------------
+[2026-04-18 11:48:04.668] [INFO] 
+Unified API Server running on http://0.0.0.0:3000
+[2026-04-18 11:48:04.673] [INFO] Supports multiple API formats:
+[2026-04-18 11:48:04.686] [INFO]   • OpenAI-compatible: /v1/chat/completions, /v1/responses, /v1/models
+[2026-04-18 11:48:04.696] [INFO]   • Gemini-compatible: /v1beta/models, /v1beta/models/{model}:generateContent
+[2026-04-18 11:48:04.702] [INFO]   • Claude-compatible: /v1/messages
+[2026-04-18 11:48:04.705] [INFO]   • Health check: /health
+[2026-04-18 11:48:04.712] [INFO]   • UI Management Console: http://0.0.0.0:3000/
+[2026-04-18 11:48:04.739] [INFO] [Initialization] Performing initial health checks for provider pools...
+[2026-04-18 11:48:12.815] [INFO] [UI] Opened login page in default browser
+[2026-04-18 11:48:55.200] [Req:127.0.0.1:10e559cc] [INFO] [Auth] Successfully read password file
+[2026-04-18 11:48:55.288] [Req:127.0.0.1:10e559cc] [INFO] [Auth] Login successful from IP: 127.0.0.1
+[2026-04-18 11:49:03.471] [Req:127.0.0.1:d32351fb] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 11:49:03.956] [Req:127.0.0.1:e35a429c] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 11:49:04.578] [Req:127.0.0.1:d385b8e9] [INFO] [Update] Fetching remote tags...
+[2026-04-18 12:33:37.270] [Req:127.0.0.1:38dcb462] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 12:33:37.580] [Req:127.0.0.1:cc0b32cf] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 12:33:37.970] [Req:127.0.0.1:147f742d] [INFO] [Update] Fetching remote tags...
+[2026-04-18 12:46:47.591] [Req:127.0.0.1:09de105f] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 12:46:48.125] [Req:127.0.0.1:5a00c472] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 12:46:48.502] [Req:127.0.0.1:3f4c12bd] [INFO] [Update] Fetching remote tags...
+[2026-04-18 12:59:22.717] [Req:127.0.0.1:26ef650b] [INFO] [Auth] Successfully read password file
+[2026-04-18 12:59:22.719] [Req:127.0.0.1:26ef650b] [INFO] [Auth] Login successful from IP: 127.0.0.1
+[2026-04-18 12:59:29.172] [Req:127.0.0.1:215aaa80] [INFO] [Auth] Successfully read password file
+[2026-04-18 12:59:29.285] [Req:127.0.0.1:215aaa80] [INFO] [Auth] Login successful from IP: 127.0.0.1
+[2026-04-18 12:59:35.868] [Req:127.0.0.1:fe026fcb] [INFO] [Auth] Successfully read password file
+[2026-04-18 12:59:35.967] [Req:127.0.0.1:fe026fcb] [INFO] [Auth] Login successful from IP: 127.0.0.1
+[2026-04-18 12:59:43.336] [Req:127.0.0.1:bb04c46f] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 12:59:50.951] [Req:127.0.0.1:adde64c0] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 12:59:52.237] [Req:127.0.0.1:60919f64] [INFO] [Update] Fetching remote tags...
+[2026-04-18 13:00:00.582] [Req:127.0.0.1:53149700] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 13:00:02.677] [Req:127.0.0.1:d4914c5e] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 13:00:03.885] [Req:127.0.0.1:4fd86750] [INFO] [Update] Fetching remote tags...
+[2026-04-18 13:07:04.455] [Req:127.0.0.1:de336893] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 13:07:04.930] [Req:127.0.0.1:234673ab] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 13:07:05.218] [Req:127.0.0.1:14e971df] [INFO] [Update] Fetching remote tags...
+[2026-04-18 13:21:33.039] [Req:127.0.0.1:e4a60f5c] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 13:21:33.547] [Req:127.0.0.1:411fae91] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 13:21:33.815] [Req:127.0.0.1:821e6147] [INFO] [Update] Fetching remote tags...
+[2026-04-18 13:27:59.870] [Req:127.0.0.1:f88dae64] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 13:28:00.178] [Req:127.0.0.1:6771628f] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 13:28:00.497] [Req:127.0.0.1:272a2654] [INFO] [Update] Fetching remote tags...
+[2026-04-18 13:36:07.791] [Req:127.0.0.1:5ceae221] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 13:36:08.396] [Req:127.0.0.1:9ca9fdb6] [INFO] [Usage API] Returning cached usage data
+[2026-04-18 13:36:08.878] [Req:127.0.0.1:72608ab3] [INFO] [Update] Fetching remote tags...

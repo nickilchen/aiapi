@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="login.title">登录 - AIAPI</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #60a5fa;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            background: var(--bg-secondary);
+            overflow: hidden;
+        }
+
+        .login-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* 左侧品牌区域 */
+        .brand-section {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: moveGrid 30s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 40px); }
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+        }
+
+        .brand-logo {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .brand-logo i {
+            font-size: 60px;
+            color: white;
+        }
+
+        .brand-logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+        }
+
+        .brand-title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .brand-subtitle {
+            font-size: 20px;
+            font-weight: 300;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .brand-features {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 600px;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .feature-item i {
+            font-size: 32px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .feature-item h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-item p {
+            font-size: 13px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* 右侧登录区域 */
+        .login-section {
+            flex: 0 0 480px;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            position: relative;
+        }
+
+        .language-switcher {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+
+        /* 覆盖语言切换器的默认样式 */
+        #langSwitcherContainer {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+
+        #langSwitcherContainer .language-switcher {
+            position: static;
+        }
+
+        #langSwitcherContainer .language-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        #langSwitcherContainer .language-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .login-header {
+            margin-bottom: 48px;
+        }
+
+        .login-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .login-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 48px 14px 48px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            outline: none;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group input:focus ~ .input-icon {
+            color: var(--primary-color);
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-light);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 13px;
+            margin-top: 10px;
+            display: none;
+            padding: 12px 16px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--error-color);
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+            20%, 40%, 60%, 80% { transform: translateX(8px); }
+        }
+
+        .error-message.show {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .login-button:hover::before {
+            left: 100%;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        .login-button:disabled {
+            background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .login-footer {
+            margin-top: 40px;
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .login-footer p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .login-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .login-footer a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .brand-section {
+                display: none;
+            }
+
+            .login-section {
+                flex: 1;
+            }
+
+            #langSwitcherContainer {
+                top: 24px;
+                right: 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .login-section {
+                padding: 40px 24px;
+            }
+
+            .login-header {
+                margin-top: 40px;
+            }
+
+            .login-header h2 {
+                font-size: 28px;
+            }
+
+            #langSwitcherContainer {
+                top: 16px;
+                right: 16px;
+            }
+
+            #langSwitcherContainer .language-btn {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* 暗色模式支持 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-primary: #f9fafb;
+                --text-secondary: #d1d5db;
+                --text-light: #9ca3af;
+                --bg-primary: #1f2937;
+                --bg-secondary: #111827;
+                --border-color: #374151;
+            }
+
+            .login-section {
+                background: var(--bg-primary);
+            }
+
+            .form-group input {
+                background: var(--bg-secondary);
+                color: var(--text-primary);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="app/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-wrapper">
+        <!-- 左侧品牌区域 -->
+        <div class="brand-section">
+            <div class="brand-content">
+                <div class="brand-logo">
+                    <img src="/favicon.ico" alt="Logo" onerror="this.parentElement.innerHTML='<i class=\'fas fa-robot\'></i>'">
+                </div>
+                <h1 class="brand-title">AIAPI</h1>
+                <p class="brand-subtitle">统一多个 AI 模型接口，提供标准化的 API 服务</p>
+                
+                <div class="brand-features">
+                    <div class="feature-item">
+                        <i class="fas fa-plug"></i>
+                        <h3>统一接入</h3>
+                        <p>支持多种 AI 模型提供商</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>安全可靠</h3>
+                        <p>企业级安全保障</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-bolt"></i>
+                        <h3>高性能</h3>
+                        <p>智能负载均衡</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>实时监控</h3>
+                        <p>完整的日志和统计</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧登录区域 -->
+        <div class="login-section">
+            <!-- 语言切换器 -->
+            <div id="langSwitcherContainer"></div>
+
+            <div class="login-header">
+                <h2 data-i18n="login.welcome">欢迎回来</h2>
+                <p data-i18n="login.heading">请输入密码以继续访问</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="password" data-i18n="login.password">密码</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            data-i18n="login.passwordPlaceholder"
+                            placeholder="请输入您的密码"
+                            autocomplete="current-password"
+                            required
+                        >
+                        <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="errorMessage">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span data-i18n="login.error.incorrect">密码错误，请重试</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="login-button" id="loginButton">
+                    <span data-i18n="login.button">登录</span>
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <p>&copy; 2025 <a href="https://github.com/justlovemaki/AIClient-2-API" target="_blank">AIAPI</a>. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initI18n, t, setLanguage } from './app/i18n.js';
+
+        // 初始化多语言
+        initI18n();
+        
+        // 初始化语言切换器
+        const langContainer = document.getElementById('langSwitcherContainer');
+        if (langContainer) {
+            import('./app/language-switcher.js').then(module => {
+                const switcher = module.createLanguageSwitcher();
+                langContainer.appendChild(switcher);
+                
+                const languageBtn = switcher.querySelector('#languageBtn');
+                const languageDropdown = switcher.querySelector('#languageDropdown');
+                const languageOptions = switcher.querySelectorAll('.language-option');
+                
+                languageBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    languageDropdown.classList.toggle('show');
+                });
+                
+                languageOptions.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const lang = option.getAttribute('data-lang');
+                        setLanguage(lang);
+                        switcher.querySelector('.current-lang').textContent = lang === 'zh-CN' ? '中文' : 'EN';
+                        languageOptions.forEach(opt => opt.classList.remove('active'));
+                        option.classList.add('active');
+                        languageDropdown.classList.remove('show');
+                    });
+                });
+                
+                document.addEventListener('click', () => {
+                    languageDropdown.classList.remove('show');
+                });
+            });
+        }
+
+        const loginForm = document.getElementById('loginForm');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginButton = document.getElementById('loginButton');
+        const togglePassword = document.getElementById('togglePassword');
+
+        // 检查是否已经登录
+        checkLoginStatus();
+
+        // 密码显示/隐藏切换
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            const icon = togglePassword.querySelector('i');
+            if (type === 'password') {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const password = passwordInput.value.trim();
+            
+            if (!password) {
+                showError(t('login.error.empty') || '请输入密码');
+                return;
+            }
+
+            // 禁用按钮并显示加载状态
+            loginButton.disabled = true;
+            loginButton.innerHTML = `<span class="loading"></span><span>${t('login.loggingIn') || '登录中...'}</span>`;
+            errorMessage.classList.remove('show');
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    localStorage.setItem('authToken', data.token);
+                    
+                    loginButton.innerHTML = `<i class="fas fa-check-circle"></i> <span>${t('login.success') || '登录成功'}</span>`;
+                    loginButton.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                    
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 500);
+                } else {
+                    const errorMsg = data.messageCode ? t(data.messageCode, data.messageParams) : (data.message || t('login.error.incorrect'));
+                    showError(errorMsg);
+                    loginButton.disabled = false;
+                    loginButton.innerHTML = `<span>${t('login.button') || '登录'}</span>`;
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            } catch (error) {
+                console.error('登录错误:', error);
+                showError(t('login.error.failed') || '登录失败，请重试');
+                loginButton.disabled = false;
+                loginButton.innerHTML = `<span>${t('login.button') || '登录'}</span>`;
+            }
+        });
+
+        function showError(message) {
+            const errorSpan = errorMessage.querySelector('span');
+            if (errorSpan) {
+                errorSpan.textContent = message;
+            } else {
+                errorMessage.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>${message}</span>`;
+            }
+            errorMessage.classList.add('show');
+            
+            passwordInput.style.animation = 'none';
+            setTimeout(() => {
+                passwordInput.style.animation = '';
+            }, 10);
+        }
+
+        function checkLoginStatus() {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                window.location.href = '/';
+            }
+        }
+
+        passwordInput.addEventListener('input', () => {
+            errorMessage.classList.remove('show');
+        });
+
+        passwordInput.focus();
+
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loginForm.dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>

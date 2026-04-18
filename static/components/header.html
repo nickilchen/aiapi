@@ -1,0 +1,30 @@
+<!-- Header -->
+<link rel="stylesheet" href="components/header.css">
+<header class="header">
+    <div class="header-content">
+        <div class="header-brand">
+            <div class="brand-logo-small">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h1><span class="header-title" data-i18n="header.title">AIAPI 管理控制台</span></h1>
+        </div>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu" title="菜单">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="header-controls" id="headerControls">
+            <span class="status-badge" id="serverStatus">
+                <i class="fas fa-circle"></i> <span class="status-text" data-i18n="header.status.connecting">连接中...</span>
+            </span>
+            <button id="themeToggleBtn" class="header-btn icon-btn theme-toggle" aria-label="Toggle Theme" data-i18n-aria-label="header.themeToggle" title="切换主题" data-i18n-title="header.themeToggle">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button id="restartBtn" class="header-btn" aria-label="Restart Service" data-i18n-aria-label="header.restart">
+                <i id="restartBtnIcon" class="fas fa-redo"></i> <span id="restartBtnText" class="btn-text" data-i18n="header.restart">重启</span>
+            </button>
+            <button id="logoutBtn" class="header-btn logout-btn" data-i18n="header.logout" title="Logout" data-i18n-title="header.logout">
+                <i class="fas fa-sign-out-alt"></i> <span data-i18n="header.logout">登出</span>
+            </button>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,375 @@
+<link rel="stylesheet" href="components/section-alerts.css">
+<!-- Alerts Section -->
+<section id="alerts" class="section" aria-labelledby="alerts-title">
+    <div class="section-header">
+        <div class="header-content">
+            <h2 id="alerts-title" data-i18n="alerts.title">告警通知</h2>
+        </div>
+    </div>
+
+    <!-- 告警统计卡片 -->
+    <div class="alert-stats-grid">
+        <div class="alert-stat-card">
+            <div class="stat-icon info">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="totalAlertsCount">0</h3>
+                <p data-i18n="alerts.stats.total">总告警数</p>
+            </div>
+        </div>
+        
+        <div class="alert-stat-card">
+            <div class="stat-icon warning">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="unacknowledgedCount">0</h3>
+                <p data-i18n="alerts.stats.unacknowledged">未确认</p>
+            </div>
+        </div>
+        
+        <div class="alert-stat-card">
+            <div class="stat-icon success">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="acknowledgedCount">0</h3>
+                <p data-i18n="alerts.stats.acknowledged">已确认</p>
+            </div>
+        </div>
+        
+        <div class="alert-stat-card">
+            <div class="stat-icon" id="alertStatusIcon">
+                <i class="fas fa-circle-notch fa-spin"></i>
+            </div>
+            <div class="stat-info">
+                <h3 id="alertStatusText" data-i18n="alerts.stats.connecting">连接中</h3>
+                <p data-i18n="alerts.stats.status">实时状态</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 告警配置面板 -->
+    <div class="alert-config-panel">
+        <div class="panel-header">
+            <div class="panel-title">
+                <i class="fas fa-cog"></i>
+                <h3 data-i18n="alerts.config.title">告警规则配置</h3>
+            </div>
+            <div class="panel-actions">
+                <button id="saveAlertConfigBtn" class="btn btn-primary">
+                    <i class="fas fa-save"></i>
+                    <span data-i18n="common.save">保存配置</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="config-content">
+            <!-- 全局开关 -->
+            <div class="config-section global-switch">
+                <div class="config-item">
+                    <div class="config-label">
+                        <label for="alertEnabled">
+                            <i class="fas fa-power-off"></i>
+                            <span data-i18n="alerts.config.enabled">启用告警系统</span>
+                        </label>
+                        <p class="config-hint" data-i18n="alerts.config.enabledHint">关闭后将停止所有告警监控和通知</p>
+                    </div>
+                    <div class="config-control">
+                        <label class="switch">
+                            <input type="checkbox" id="alertEnabled">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 告警规则 -->
+            <div class="config-section">
+                <h4 class="section-subtitle">
+                    <i class="fas fa-ruler"></i>
+                    <span data-i18n="alerts.config.rules">告警规则</span>
+                </h4>
+
+                <div class="rules-grid">
+                    <!-- 提供商健康状态 -->
+                    <div class="rule-card">
+                        <div class="rule-header">
+                            <div class="rule-icon health">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="rule-info">
+                                <h5 data-i18n="alerts.rules.providerHealth">提供商健康状态</h5>
+                                <p class="rule-desc" data-i18n="alerts.rules.providerHealthDesc">监控提供商账号的健康状态</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="ruleProviderHealthEnabled">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="rule-content">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label data-i18n="alerts.rules.healthThreshold">健康率阈值</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="ruleProviderHealthThreshold" min="0" max="100" step="5" class="form-control">
+                                        <span class="unit">%</span>
+                                    </div>
+                                    <small class="form-hint" data-i18n="alerts.rules.healthThresholdHint">低于此值时触发告警</small>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="alerts.rules.cooldown">冷却时间</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="ruleProviderHealthCooldown" min="1" max="1440" class="form-control">
+                                        <span class="unit">分钟</span>
+                                    </div>
+                                    <small class="form-hint" data-i18n="alerts.rules.cooldownHint">最小间隔时间</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 错误率 -->
+                    <div class="rule-card">
+                        <div class="rule-header">
+                            <div class="rule-icon error">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="rule-info">
+                                <h5 data-i18n="alerts.rules.errorRate">错误率监控</h5>
+                                <p class="rule-desc" data-i18n="alerts.rules.errorRateDesc">监控 API 请求的错误率</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="ruleErrorRateEnabled">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="rule-content">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label data-i18n="alerts.rules.errorThreshold">错误率阈值</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="ruleErrorRateThreshold" min="0" max="100" step="1" class="form-control">
+                                        <span class="unit">%</span>
+                                    </div>
+                                    <small class="form-hint" data-i18n="alerts.rules.errorThresholdHint">超过此值时触发告警</small>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="alerts.rules.timeWindow">时间窗口</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="ruleErrorRateTimeWindow" min="1" max="60" class="form-control">
+                                        <span class="unit">分钟</span>
+                                    </div>
+                                    <small class="form-hint" data-i18n="alerts.rules.timeWindowHint">统计时间范围</small>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label data-i18n="alerts.rules.cooldown">冷却时间</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="ruleErrorRateCooldown" min="1" max="1440" class="form-control">
+                                        <span class="unit">分钟</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 配额使用 -->
+                    <div class="rule-card">
+                        <div class="rule-header">
+                            <div class="rule-icon quota">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="rule-info">
+                                <h5 data-i18n="alerts.rules.quotaUsage">配额使用监控</h5>
+                                <p class="rule-desc" data-i18n="alerts.rules.quotaUsageDesc">监控 API 配额使用情况</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="ruleQuotaUsageEnabled">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="rule-content">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label data-i18n="alerts.rules.quotaThreshold">配额阈值</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="ruleQuotaUsageThreshold" min="0" max="100" step="5" class="form-control">
+                                        <span class="unit">%</span>
+                                    </div>
+                                    <small class="form-hint" data-i18n="alerts.rules.quotaThresholdHint">超过此值时触发告警</small>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="alerts.rules.cooldown">冷却时间</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="ruleQuotaUsageCooldown" min="1" max="1440" class="form-control">
+                                        <span class="unit">分钟</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 通知方式 -->
+            <div class="config-section">
+                <h4 class="section-subtitle">
+                    <i class="fas fa-paper-plane"></i>
+                    <span data-i18n="alerts.config.notifications">通知方式</span>
+                </h4>
+
+                <div class="notifications-grid">
+                    <!-- 浏览器通知 -->
+                    <div class="notification-card">
+                        <div class="notification-header">
+                            <div class="notification-icon browser">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <div class="notification-info">
+                                <h5 data-i18n="alerts.notifications.browser">浏览器通知</h5>
+                                <p class="notification-desc" data-i18n="alerts.notifications.browserHint">实时推送到浏览器</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notificationBrowserEnabled">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-content">
+                            <button id="requestNotificationPermission" class="btn btn-sm btn-outline">
+                                <i class="fas fa-bell"></i>
+                                <span data-i18n="alerts.notifications.requestPermission">请求通知权限</span>
+                            </button>
+                            <button id="testBrowserNotification" class="btn btn-sm btn-primary">
+                                <i class="fas fa-vial"></i>
+                                <span data-i18n="alerts.notifications.testNotification">测试通知</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 企业微信通知 -->
+                    <div class="notification-card">
+                        <div class="notification-header">
+                            <div class="notification-icon wecom">
+                                <i class="fab fa-weixin"></i>
+                            </div>
+                            <div class="notification-info">
+                                <h5 data-i18n="alerts.notifications.wecom">企业微信通知</h5>
+                                <p class="notification-desc" data-i18n="alerts.notifications.wecomHint">通过企业微信机器人推送</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notificationWecomEnabled">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-content" id="wecomConfigContent">
+                            <div class="form-group">
+                                <label data-i18n="alerts.notifications.wecomWebhookUrl">企业微信 Webhook 地址</label>
+                                <input type="url" id="wecomWebhookUrl" class="form-control" data-i18n-placeholder="alerts.notifications.wecomWebhookUrlPlaceholder">
+                                <small class="form-hint" data-i18n="alerts.notifications.wecomWebhookUrlHint">企业微信群机器人的 Webhook 地址</small>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="alerts.notifications.wecomMentionedList">@成员列表 (可选)</label>
+                                <input type="text" id="wecomMentionedList" class="form-control" data-i18n-placeholder="alerts.notifications.wecomMentionedListPlaceholder">
+                                <small class="form-hint" data-i18n="alerts.notifications.wecomMentionedListHint">多个用户ID用逗号分隔，@all 表示提醒所有人</small>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="alerts.notifications.wecomMentionedMobileList">@手机号列表 (可选)</label>
+                                <input type="text" id="wecomMentionedMobileList" class="form-control" data-i18n-placeholder="alerts.notifications.wecomMentionedMobilePlaceholder">
+                                <small class="form-hint" data-i18n="alerts.notifications.wecomMentionedMobileListHint">多个手机号用逗号分隔</small>
+                            </div>
+                            <button id="testWecomNotification" class="btn btn-sm btn-primary">
+                                <i class="fas fa-vial"></i>
+                                <span data-i18n="alerts.notifications.testNotification">测试通知</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Webhook 通知 -->
+                    <div class="notification-card">
+                        <div class="notification-header">
+                            <div class="notification-icon webhook">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <div class="notification-info">
+                                <h5 data-i18n="alerts.notifications.webhook">自定义 Webhook</h5>
+                                <p class="notification-desc" data-i18n="alerts.notifications.webhookHint">发送到自定义 HTTP 端点</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notificationWebhookEnabled">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-content" id="webhookConfigContent">
+                            <div class="form-group">
+                                <label data-i18n="alerts.notifications.webhookUrl">自定义 Webhook 地址</label>
+                                <input type="url" id="webhookUrl" class="form-control" data-i18n-placeholder="alerts.notifications.webhookUrlPlaceholder">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="alerts.notifications.webhookMethod">请求方法</label>
+                                <select id="webhookMethod" class="form-control">
+                                    <option value="POST">POST</option>
+                                    <option value="PUT">PUT</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="alerts.notifications.webhookHeaders">自定义请求头 (JSON 格式)</label>
+                                <textarea id="webhookHeaders" class="form-control" rows="3" data-i18n-placeholder="alerts.notifications.webhookHeadersPlaceholder"></textarea>
+                            </div>
+                            <button id="testWebhookNotification" class="btn btn-sm btn-primary">
+                                <i class="fas fa-vial"></i>
+                                <span data-i18n="alerts.notifications.testNotification">测试通知</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 告警历史 -->
+    <div class="alert-history-panel">
+        <div class="panel-header">
+            <div class="panel-title">
+                <i class="fas fa-history"></i>
+                <h3 data-i18n="alerts.history.title">告警历史</h3>
+            </div>
+            <div class="panel-actions">
+                <button id="testAlertBtn" class="btn btn-outline">
+                    <i class="fas fa-vial"></i>
+                    <span data-i18n="alerts.testAlert">测试告警</span>
+                </button>
+                <button id="clearHistoryBtn" class="btn btn-outline btn-danger">
+                    <i class="fas fa-trash"></i>
+                    <span data-i18n="alerts.clearHistory">清除历史</span>
+                </button>
+                <div class="filter-group">
+                    <select id="alertTypeFilter" class="form-control form-control-sm">
+                        <option value="all" data-i18n="alerts.history.allTypes">所有类型</option>
+                        <option value="provider_health" data-i18n="alerts.history.providerHealth">提供商健康</option>
+                        <option value="error_rate" data-i18n="alerts.history.errorRate">错误率</option>
+                        <option value="quota_usage" data-i18n="alerts.history.quotaUsage">配额使用</option>
+                    </select>
+                    <select id="alertSeverityFilter" class="form-control form-control-sm">
+                        <option value="all" data-i18n="alerts.history.allSeverities">所有级别</option>
+                        <option value="info" data-i18n="alerts.history.info">信息</option>
+                        <option value="warning" data-i18n="alerts.history.warning">警告</option>
+                        <option value="error" data-i18n="alerts.history.error">错误</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert-history-list" id="alertHistoryList">
+            <!-- 告警列表将由 JS 动态生成 -->
+        </div>
+
+        <div class="pagination" id="alertPagination">
+            <!-- 分页控件将由 JS 动态生成 -->
+        </div>
+    </div>
+</section>
+
+<script type="module" src="app/alerts-manager.js"></script>
