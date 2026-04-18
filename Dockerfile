@@ -1,5 +1,5 @@
 # ── Stage 1: 编译 Go TLS sidecar ──
-FROM golang:1.22-alpine AS sidecar-builder
+FROM swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/golang:1.22-alpine3.19 AS sidecar-builder
 
 RUN apk add --no-cache git
 
@@ -13,7 +13,7 @@ RUN go mod tidy && CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o tls-sid
 # ── Stage 2: Node.js 应用 ──
 # 使用官方Node.js运行时作为基础镜像
 # 选择20-alpine版本以满足undici包的要求（需要Node.js >=20.18.1）
-FROM node:20-alpine
+FROM swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/node:20-alpine3.20
 
 # 设置标签
 LABEL maintainer="AIClient2API Team"
@@ -31,7 +31,7 @@ COPY package*.json ./
 # 安装依赖
 # 使用--production标志只安装生产依赖，减小镜像大小
 # 使用--omit=dev来排除开发依赖
-RUN npm install
+RUN npm install --registry=https://registry.npmmirror.com
 
 # 复制源代码
 COPY . .
