@@ -96,7 +96,9 @@ export async function initializeConfig(args = process.argv.slice(2), configFileP
         TLS_SIDECAR_ENABLED_PROVIDERS: [], // 启用 TLS Sidecar 的提供商列表
         TLS_SIDECAR_PORT: 9090,     // sidecar 监听端口
         TLS_SIDECAR_BINARY_PATH: null, // 自定义二进制路径（默认自动搜索）
-        TLS_SIDECAR_PROXY_URL: null    // TLS Sidecar 专用的上游代理地址
+        TLS_SIDECAR_PROXY_URL: null,    // TLS Sidecar 专用的上游代理地址
+        KIRO_BUILTIN_SYSTEM_PROMPT_ENABLED: false, // 是否启用 Kiro 内置系统提示词
+        KIRO_BUILTIN_SYSTEM_PROMPT: null // 自定义 Kiro 内置系统提示词内容（null 则使用默认）
     };
 
     let currentConfig = { ...defaultConfig };

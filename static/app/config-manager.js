@@ -193,7 +193,17 @@ async function loadConfiguration() {
         const modelProviderEl = document.getElementById('modelProvider');
         const systemPromptEl = document.getElementById('systemPrompt');
 
-        if (apiKeyEl) apiKeyEl.value = data.REQUIRED_API_KEY || '';
+        // API Key 特殊处理：如果是脱敏值，显示为空（保留原值）
+        if (apiKeyEl) {
+            const apiKeyValue = data.REQUIRED_API_KEY || '';
+            // 如果是脱敏值，显示占位符提示，但不设置实际值
+            if (apiKeyValue === '******') {
+                apiKeyEl.placeholder = '当前已设置 API Key（留空保持不变）';
+                apiKeyEl.value = '';
+            } else {
+                apiKeyEl.value = apiKeyValue;
+            }
+        }
         if (hostEl) hostEl.value = data.HOST || '127.0.0.1';
         if (portEl) portEl.value = data.SERVER_PORT || 3000;
         
@@ -420,12 +430,18 @@ async function saveConfiguration() {
     }
 
     const config = {
-        REQUIRED_API_KEY: document.getElementById('apiKey')?.value || '',
         HOST: document.getElementById('host')?.value || '127.0.0.1',
         SERVER_PORT: parseInt(document.getElementById('port')?.value || 3000),
         MODEL_PROVIDER: selectedProviders.length > 0 ? selectedProviders.join(',') : 'gemini-cli-oauth',
         systemPrompt: document.getElementById('systemPrompt')?.value || '',
     };
+
+    // API Key 特殊处理：只有在用户输入了新值时才更新
+    const apiKeyValue = document.getElementById('apiKey')?.value || '';
+    if (apiKeyValue && apiKeyValue.trim() !== '') {
+        config.REQUIRED_API_KEY = apiKeyValue;
+    }
+    // 如果 API Key 为空，不包含在 config 中，后端会保留原值
 
     // 获取后台登录密码（如果有输入）
     const adminPassword = document.getElementById('adminPassword')?.value || '';

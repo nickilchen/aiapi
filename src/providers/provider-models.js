@@ -61,21 +61,28 @@ export const PROVIDER_MODELS = {
         'qwen3-235b-a22b-thinking-2507',
         'qwen3-235b-a22b-instruct',
         'qwen3-235b',
+        'qwen-coder-next',
         // Kimi 模型
         'kimi-k2-0905',
         'kimi-k2',
         // GLM 模型
         'glm-4.6',
+        'glm-4.7',
+        'glm-5',
+        'glm5',
         // DeepSeek 模型
         'deepseek-v3.2',
         'deepseek-r1',
         'deepseek-v3',
-        // 手动定义
-        'glm-4.7',
-        'glm-5',
-        'kimi-k2.5',
+        'deepseek-3-2',
+        'deepseek-3-2-agentic',
+        // MiniMax 模型
         'minimax-m2.1',
         'minimax-m2.5',
+        'minimax-m2-1-agentic',
+        'minimax-m2-5',
+        // Kimi 扩展
+        'kimi-k2.5',
     ],
     'openai-codex-oauth': [
         'gpt-5',

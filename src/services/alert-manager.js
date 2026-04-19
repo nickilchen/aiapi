@@ -260,15 +260,15 @@ class AlertManager {
             const { getProviderPoolManager } = await import('./service-manager.js');
             const poolManager = getProviderPoolManager();
             
-            if (!poolManager) return;
+            if (!poolManager || !poolManager.providerStatus) return;
 
-            const pools = poolManager.getAllPools();
+            const pools = poolManager.providerStatus;
             
             for (const [providerType, providers] of Object.entries(pools)) {
                 const total = providers.length;
                 if (total === 0) continue;
 
-                const healthy = providers.filter(p => p.isHealthy && !p.isDisabled).length;
+                const healthy = providers.filter(p => p.config.isHealthy && !p.config.isDisabled).length;
                 const healthRate = healthy / total;
 
                 if (healthRate < this.config.rules.providerHealth.threshold) {

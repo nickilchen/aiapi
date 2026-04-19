@@ -5,15 +5,17 @@
  * 使用 Token 文件方式认证 - 从文件读取 API Key
  *
  * 支持的模型：
- * - Qwen 系列: qwen3-max, qwen3-coder-plus, qwen3-vl-plus, qwen3-235b 等
- * - Kimi 系列: kimi-k2, kimi-k2-0905
- * - DeepSeek 系列: deepseek-v3, deepseek-v3.2, deepseek-r1
- * - GLM 系列: glm-4.6
+ * - Qwen 系列: qwen3-max, qwen3-coder-plus, qwen3-vl-plus, qwen3-235b, qwen-coder-next 等
+ * - Kimi 系列: kimi-k2, kimi-k2-0905, kimi-k2.5
+ * - DeepSeek 系列: deepseek-v3, deepseek-v3.2, deepseek-r1, deepseek-3-2, deepseek-3-2-agentic
+ * - GLM 系列: glm-4.6, glm-4.7, glm-5, glm5
+ * - MiniMax 系列: minimax-m2.1, minimax-m2.5, minimax-m2-1-agentic, minimax-m2-5
  *
  * 支持的特殊模型配置：
- * - GLM-4.x: 使用 chat_template_kwargs.enable_thinking
+ * - GLM-4.x/5: 使用 chat_template_kwargs.enable_thinking
  * - Qwen thinking 模型: 内置推理能力
- * - DeepSeek R1: 内置推理能力
+ * - DeepSeek R1/3.x: 内置推理能力
+ * - MiniMax Agentic: 智能体模型
  */
 
 import axios from 'axios';
@@ -41,7 +43,7 @@ const IFLOW_OAUTH_CLIENT_SECRET = '4Z3YjXycVsQvyGF1etiNlIBB4RsqSDtW';
 const IFLOW_MODELS = getProviderModels(MODEL_PROVIDER.IFLOW_API);
 
 // 支持 thinking 的模型前缀
-const THINKING_MODEL_PREFIXES = ['glm-', 'qwen3-235b-a22b-thinking', 'deepseek-r1'];
+const THINKING_MODEL_PREFIXES = ['glm-', 'qwen3-235b-a22b-thinking', 'deepseek-r1', 'deepseek-3'];
 
 // ==================== Token 管理 ====================
 
@@ -336,8 +338,8 @@ function applyIFlowThinkingConfig(body, model) {
     delete newBody.reasoning_effort;
     delete newBody.thinking;
     
-    // GLM-4.x: 使用 chat_template_kwargs
-    if (lowerModel.startsWith('glm-4')) {
+    // GLM-4.x 和 GLM-5: 使用 chat_template_kwargs
+    if (lowerModel.startsWith('glm-4') || lowerModel.startsWith('glm-5') || lowerModel === 'glm5') {
         newBody.chat_template_kwargs = {
             ...(newBody.chat_template_kwargs || {}),
             enable_thinking: enableThinking
@@ -354,8 +356,13 @@ function applyIFlowThinkingConfig(body, model) {
         return newBody;
     }
     
-    // DeepSeek R1: 推理模型，不需要额外配置
-    if (lowerModel.startsWith('deepseek-r1')) {
+    // DeepSeek R1 和 DeepSeek 3.2: 推理模型，不需要额外配置
+    if (lowerModel.startsWith('deepseek-r1') || lowerModel.startsWith('deepseek-3')) {
+        return newBody;
+    }
+    
+    // MiniMax Agentic 模型: 智能体模型，不需要额外配置
+    if (lowerModel.includes('agentic')) {
         return newBody;
     }
     
@@ -366,7 +373,7 @@ function applyIFlowThinkingConfig(body, model) {
  * 保留消息历史中的 reasoning_content
  * 对于支持 thinking 的模型，保留 assistant 消息中的 reasoning_content
  *
- * 对于 GLM-4.6/4.7 和 MiniMax M2/M2.1，建议在消息历史中包含完整的 assistant
+ * 对于 GLM-4.x/5、MiniMax M2/M2.1/M2.5，建议在消息历史中包含完整的 assistant
  * 响应（包括 reasoning_content）以保持更好的上下文连续性。
  *
  * @param {Object} body - 请求体
@@ -380,6 +387,8 @@ function preserveReasoningContentInMessages(body, model) {
     
     // 只对支持 thinking 且需要历史保留的模型应用
     const needsPreservation = lowerModel.startsWith('glm-4') ||
+                              lowerModel.startsWith('glm-5') ||
+                              lowerModel === 'glm5' ||
                               lowerModel.startsWith('minimax-m2');
     
     if (!needsPreservation) {

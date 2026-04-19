@@ -1,0 +1,40 @@
+{
+  "enabled": true,
+  "rules": {
+    "providerHealth": {
+      "enabled": true,
+      "threshold": 0.5,
+      "cooldown": 300000
+    },
+    "errorRate": {
+      "enabled": true,
+      "threshold": 0.1,
+      "timeWindow": 300000,
+      "cooldown": 300000
+    },
+    "quotaUsage": {
+      "enabled": true,
+      "threshold": 0.9,
+      "cooldown": 3600000
+    }
+  },
+  "notifications": {
+    "browser": {
+      "enabled": true
+    },
+    "wecom": {
+      "enabled": false,
+      "webhookUrl": "",
+      "mentionedList": [],
+      "mentionedMobileList": []
+    },
+    "webhook": {
+      "enabled": false,
+      "url": "",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    }
+  }
+}

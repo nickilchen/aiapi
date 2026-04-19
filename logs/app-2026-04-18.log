@@ -73,3 +73,4 @@ Unified API Server running on http://0.0.0.0:3000
 [2026-04-18 13:36:07.791] [Req:127.0.0.1:5ceae221] [INFO] [Usage API] Returning cached usage data
 [2026-04-18 13:36:08.396] [Req:127.0.0.1:9ca9fdb6] [INFO] [Usage API] Returning cached usage data
 [2026-04-18 13:36:08.878] [Req:127.0.0.1:72608ab3] [INFO] [Update] Fetching remote tags...
+[2026-04-18 17:33:42.112] [INFO] [Server] Received SIGINT
